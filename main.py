@@ -17,7 +17,7 @@ from GPT2.encoder import get_encoder
 
 logs_file_path = 'generated_text.txt'
 
-with open(file_path, 'w') as file:
+with open(logs_file_path, 'w') as file:
     pass 
 
 def append_log(message):
