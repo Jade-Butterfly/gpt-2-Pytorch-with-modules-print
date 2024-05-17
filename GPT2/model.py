@@ -22,11 +22,10 @@ class LayerNorm(nn.Module):
         self.variance_epsilon = eps
 
     def forward(self, x):
-        print('Norm entered') # change
+        print('N entered') # change
         u = x.mean(-1, keepdim=True)
         s = (x - u).pow(2).mean(-1, keepdim=True)
         x = (x - u) / torch.sqrt(s + self.variance_epsilon)
-        print('Norm exited') # change
         return self.weight * x + self.bias
 
 class Conv1D(nn.Module):
@@ -64,9 +63,8 @@ class Attention(nn.Module):
         nd, ns = w.size(-2), w.size(-1)
         b = self.bias[:, :, ns-nd:ns, :ns]
         w = w * b - 1e10 * (1 - b)
-        print('softmax input') # change
+        print('S entered') # change
         w = nn.Softmax(dim=-1)(w)
-        print('softmax exited') # change
         return torch.matmul(w, v)
 
     def merge_heads(self, x):
@@ -83,7 +81,7 @@ class Attention(nn.Module):
             return x.permute(0, 2, 1, 3)  # (batch, head, seq_length, head_features)
 
     def forward(self, x, layer_past=None):
-        print('attention entered') # change
+        print('A entered') # change
         x = self.c_attn(x)
         query, key, value = x.split(self.split_size, dim=2)
         query = self.split_heads(query)
@@ -97,7 +95,6 @@ class Attention(nn.Module):
         a = self._attn(query, key, value)
         a = self.merge_heads(a)
         a = self.c_proj(a)
-        print('attention exited') # change
         return a, present
 
 class MLP(nn.Module):
@@ -109,10 +106,9 @@ class MLP(nn.Module):
         self.act = gelu
 
     def forward(self, x):
-        print('mlp entered') # change
+        print('M entered') # change
         h = self.act(self.c_fc(x))
         h2 = self.c_proj(h)
-        print('mlp exited') # change
         return h2
 
 class Block(nn.Module):
