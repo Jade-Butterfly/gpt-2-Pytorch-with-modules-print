@@ -24,6 +24,11 @@ def append_log(message):
     with open(logs_file_path, 'a') as file:
         file.write(message + '\n')
 
+def print_file_contents():
+    with open(logs_file_path, 'r') as file:
+        contents = file.read()
+        print(contents)
+
 def text_generator(state_dict):
     parser = argparse.ArgumentParser()
     parser.add_argument("--text", type=str, required=True)
@@ -81,8 +86,9 @@ def text_generator(state_dict):
             if args.quiet is False:
                 print("=" * 40 + " SAMPLE " + str(generated) + " " + "=" * 40)
             append_log(text)
+    print('output generated:\n')
+    print_file_contents()
             #print(text)
-            
 
 if __name__ == '__main__':
     if os.path.exists('gpt2-pytorch_model.bin'):
