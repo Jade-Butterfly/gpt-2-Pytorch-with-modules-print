@@ -95,6 +95,8 @@ def text_generator(state_dict):
     append_log("=" * 40 + " SAMPLE " + len('Generated Output') * '=' + "=" + "=" * 40)
     print('output generated:\n')
     print_file_contents(logs_file_path)
+    print('\n\n')
+    print('open modules_logs.txt to see calls to modules')
             #print(text)
 
 if __name__ == '__main__':
