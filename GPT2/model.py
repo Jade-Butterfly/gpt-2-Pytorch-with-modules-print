@@ -9,6 +9,10 @@ import math
 import torch.nn as nn
 from torch.nn.parameter import Parameter
 
+def append_log(message):
+    with open('modules_logs.txt', 'a') as file:
+        file.write(message + '\n')
+
 def gelu(x):
     return 0.5 * x * (1 + torch.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * torch.pow(x, 3))))
 
@@ -22,7 +26,7 @@ class LayerNorm(nn.Module):
         self.variance_epsilon = eps
 
     def forward(self, x):
-        print('N entered') # change
+        append_log('N entered') # change
         u = x.mean(-1, keepdim=True)
         s = (x - u).pow(2).mean(-1, keepdim=True)
         x = (x - u) / torch.sqrt(s + self.variance_epsilon)
@@ -63,7 +67,7 @@ class Attention(nn.Module):
         nd, ns = w.size(-2), w.size(-1)
         b = self.bias[:, :, ns-nd:ns, :ns]
         w = w * b - 1e10 * (1 - b)
-        print('S entered') # change
+        append_log('S entered') # change
         w = nn.Softmax(dim=-1)(w)
         return torch.matmul(w, v)
 
@@ -81,7 +85,7 @@ class Attention(nn.Module):
             return x.permute(0, 2, 1, 3)  # (batch, head, seq_length, head_features)
 
     def forward(self, x, layer_past=None):
-        print('A entered') # change
+        append_log('A entered') # change
         x = self.c_attn(x)
         query, key, value = x.split(self.split_size, dim=2)
         query = self.split_heads(query)
@@ -106,7 +110,7 @@ class MLP(nn.Module):
         self.act = gelu
 
     def forward(self, x):
-        print('M entered') # change
+        append_log('M entered') # change
         h = self.act(self.c_fc(x))
         h2 = self.c_proj(h)
         return h2
