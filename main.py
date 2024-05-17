@@ -16,16 +16,20 @@ from GPT2.sample import sample_sequence
 from GPT2.encoder import get_encoder
 
 logs_file_path = 'generated_text.txt'
+modules_logs_file_path = 'modules_logs.txt'
 
 with open(logs_file_path, 'w') as file:
+    pass 
+
+with open(modules_logs_file_path, 'w') as file:
     pass 
 
 def append_log(message):
     with open(logs_file_path, 'a') as file:
         file.write(message + '\n')
 
-def print_file_contents():
-    with open(logs_file_path, 'r') as file:
+def print_file_contents(path):
+    with open(path, 'r') as file:
         contents = file.read()
         print(contents)
 
@@ -90,7 +94,7 @@ def text_generator(state_dict):
             append_log(text)
     append_log("=" * 40 + " SAMPLE " + len('Generated Output') * '=' + "=" + "=" * 40)
     print('output generated:\n')
-    print_file_contents()
+    print_file_contents(logs_file_path)
             #print(text)
 
 if __name__ == '__main__':
