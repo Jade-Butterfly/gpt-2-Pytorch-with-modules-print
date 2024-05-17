@@ -15,6 +15,15 @@ from GPT2.config import GPT2Config
 from GPT2.sample import sample_sequence
 from GPT2.encoder import get_encoder
 
+logs_file_path = 'generated_text.txt'
+
+with open(file_path, 'w') as file:
+    pass 
+
+def append_log(message):
+    with open(logs_file_path, 'a') as file:
+        file.write(message + '\n')
+
 def text_generator(state_dict):
     parser = argparse.ArgumentParser()
     parser.add_argument("--text", type=str, required=True)
@@ -71,7 +80,9 @@ def text_generator(state_dict):
             text = enc.decode(out[i])
             if args.quiet is False:
                 print("=" * 40 + " SAMPLE " + str(generated) + " " + "=" * 40)
-            print(text)
+            append_log(text)
+            #print(text)
+            
 
 if __name__ == '__main__':
     if os.path.exists('gpt2-pytorch_model.bin'):
