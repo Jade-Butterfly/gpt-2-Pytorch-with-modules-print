@@ -88,7 +88,7 @@ def text_generator(state_dict):
             if args.quiet is False:
                 print("=" * 40 + " SAMPLE " + str(generated) + " " + "=" * 40)
             append_log(text)
-    append_log("=" * 40 + " SAMPLE " + len('Generated Output') * '=' + " " + "=" * 40)
+    append_log("=" * 40 + " SAMPLE " + len('Generated Output') * '=' + "=" + "=" * 40)
     print('output generated:\n')
     print_file_contents()
             #print(text)
