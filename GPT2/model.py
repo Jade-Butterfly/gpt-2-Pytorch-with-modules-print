@@ -26,7 +26,7 @@ class LayerNorm(nn.Module):
         self.variance_epsilon = eps
 
     def forward(self, x):
-        append_log('N entered') # change
+        append_log('Normalisation 11101010100100100101110100100011 00101111001010100010010101001001') # change
         u = x.mean(-1, keepdim=True)
         s = (x - u).pow(2).mean(-1, keepdim=True)
         x = (x - u) / torch.sqrt(s + self.variance_epsilon)
@@ -67,7 +67,7 @@ class Attention(nn.Module):
         nd, ns = w.size(-2), w.size(-1)
         b = self.bias[:, :, ns-nd:ns, :ns]
         w = w * b - 1e10 * (1 - b)
-        append_log('S entered') # change
+        append_log('Softmax 00000001111111000000010011001101') # change
         w = nn.Softmax(dim=-1)(w)
         return torch.matmul(w, v)
 
@@ -85,7 +85,7 @@ class Attention(nn.Module):
             return x.permute(0, 2, 1, 3)  # (batch, head, seq_length, head_features)
 
     def forward(self, x, layer_past=None):
-        append_log('A entered') # change
+        append_log('Attention 00000101101001100111010110001110') # change
         x = self.c_attn(x)
         query, key, value = x.split(self.split_size, dim=2)
         query = self.split_heads(query)
@@ -110,7 +110,7 @@ class MLP(nn.Module):
         self.act = gelu
 
     def forward(self, x):
-        append_log('M entered') # change
+        append_log('Matrix multiplication 11000010010110001110001101010000') # change
         h = self.act(self.c_fc(x))
         h2 = self.c_proj(h)
         return h2
